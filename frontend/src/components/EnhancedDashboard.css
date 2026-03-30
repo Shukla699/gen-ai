@@ -1,6 +1,7 @@
 /* Enhanced Dashboard - Premium Dark Theme */
 .eda-dashboard {
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-dark);
   padding: 24px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -16,8 +17,8 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
-    radial-gradient(ellipse 50% 50% at 100% 50%, rgba(168, 85, 247, 0.1), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, var(--gradient-start, rgba(99, 102, 241, 0.15)), transparent),
+    radial-gradient(ellipse 50% 50% at 100% 50%, var(--gradient-end, rgba(168, 85, 247, 0.1)), transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -28,7 +29,7 @@
 }
 
 /* Dashboard Header */
-.dashboard-header {
+.eda-dashboard .dashboard-header {
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 32px;
@@ -38,17 +39,18 @@
   animation: slideUp 0.5s ease forwards;
 }
 
-.dashboard-header h1 {
+.eda-dashboard .dashboard-header h1 {
   margin: 0;
   font-size: 2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #a855f7 50%, #ec4899 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  line-height: 1.2;
 }
 
-.dashboard-header p {
+.eda-dashboard .dashboard-header p {
   margin: 8px 0 0 0;
   color: var(--text-secondary);
   font-size: 1rem;
@@ -85,7 +87,7 @@
 }
 
 .filter-group select {
-  padding: 10px 14px;
+  padding: 12px 16px;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -93,6 +95,11 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: all var(--transition-fast);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
 }
 
 .filter-group select:hover {
@@ -106,14 +113,14 @@
 }
 
 /* KPI Section */
-.kpi-section {
+.eda-dashboard .kpi-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
 
-.kpi-card {
+.eda-dashboard .kpi-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 24px;
@@ -125,7 +132,7 @@
   overflow: hidden;
 }
 
-.kpi-card::before {
+.eda-dashboard .kpi-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -135,7 +142,7 @@
   background: linear-gradient(90deg, var(--primary), #a855f7);
 }
 
-.kpi-card:hover {
+.eda-dashboard .kpi-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
   border-color: var(--primary);
@@ -151,19 +158,20 @@
   display: block;
 }
 
-.kpi-value {
+.eda-dashboard .kpi-value {
   font-size: 2rem;
   font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 6px;
+  line-height: 1.1;
 }
 
-.kpi-value.growth {
+.eda-dashboard .kpi-value.growth {
   color: var(--accent);
   font-size: 1.75rem;
 }
 
-.kpi-value.growth::before {
+.eda-dashboard .kpi-value.growth::before {
   content: none;
 }
 
@@ -175,7 +183,7 @@
 /* Charts Grid */
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
   margin-bottom: 24px;
 }
@@ -203,7 +211,7 @@
 }
 
 /* Insights Section */
-.insights-section {
+.eda-dashboard .insights-section {
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 28px;
@@ -213,7 +221,7 @@
   opacity: 0;
 }
 
-.insights-section h2 {
+.eda-dashboard .insights-section h2 {
   margin: 0 0 20px 0;
   font-size: 1.5rem;
   font-weight: 800;
@@ -222,12 +230,12 @@
 
 .insights-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
 }
 
 .insight-card {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
   color: white;
   padding: 24px;
   border-radius: var(--radius-md);
@@ -270,6 +278,8 @@
 .insight-card .subtitle {
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.8rem;
+  text-align: left;
+  margin-bottom: 0;
 }
 
 /* Quality Section */
@@ -305,6 +315,7 @@
   border-radius: var(--radius-sm);
   border-left: 3px solid var(--primary);
   transition: all var(--transition-fast);
+  gap: 12px;
 }
 
 .quality-item:hover {
@@ -325,6 +336,7 @@
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .badge.success {
@@ -334,7 +346,7 @@
 }
 
 /* Table Section */
-.table-section {
+.eda-dashboard .table-section {
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 24px;
@@ -342,9 +354,10 @@
   overflow-x: auto;
   animation: slideUp 0.5s ease 0.35s forwards;
   opacity: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
-.table-section h3 {
+.eda-dashboard .table-section h3 {
   margin: 0 0 16px 0;
   color: var(--text-primary);
   font-size: 1.1rem;
@@ -352,16 +365,16 @@
 }
 
 /* MUI Table Overrides */
-.table-section .MuiPaper-root {
+.eda-dashboard .table-section .MuiPaper-root {
   background: transparent !important;
   box-shadow: none !important;
 }
 
-.table-section .MuiTableHead-root {
+.eda-dashboard .table-section .MuiTableHead-root {
   background: var(--bg-elevated) !important;
 }
 
-.table-section .MuiTableCell-head {
+.eda-dashboard .table-section .MuiTableCell-head {
   background: transparent !important;
   color: var(--text-muted) !important;
   font-weight: 700 !important;
@@ -372,18 +385,18 @@
   padding: 14px 16px !important;
 }
 
-.table-section .MuiTableCell-body {
+.eda-dashboard .table-section .MuiTableCell-body {
   color: var(--text-secondary) !important;
   font-size: 0.85rem !important;
   border-bottom: 1px solid var(--border) !important;
   padding: 12px 16px !important;
 }
 
-.table-section .MuiTableRow-root:hover {
+.eda-dashboard .table-section .MuiTableRow-root:hover {
   background: var(--bg-elevated) !important;
 }
 
-.table-section .total-cell {
+.eda-dashboard .table-section .total-cell {
   font-weight: 700 !important;
   color: var(--primary) !important;
 }
@@ -394,6 +407,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   color: var(--text-secondary);
   font-size: 1.1rem;
 }
@@ -402,91 +416,275 @@
   color: #f87171;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
+/* ============ RESPONSIVE DESIGN ============ */
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .eda-dashboard .kpi-section {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
   .charts-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Desktop to Tablet */
+@media (max-width: 1200px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .eda-dashboard .kpi-section {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .eda-dashboard {
+    padding: 20px;
+  }
+  
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .eda-dashboard .kpi-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .insights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Landscape & Small Tablet */
 @media (max-width: 768px) {
   .eda-dashboard {
     padding: 16px;
   }
 
-  .dashboard-header {
+  .eda-dashboard .dashboard-header {
     padding: 24px;
   }
 
-  .dashboard-header h1 {
+  .eda-dashboard .dashboard-header h1 {
     font-size: 1.5rem;
   }
 
   .filters-section {
     flex-direction: column;
     padding: 16px;
+    gap: 12px;
   }
 
   .filter-group {
     min-width: 100%;
   }
 
-  .kpi-section {
+  .eda-dashboard .kpi-section {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .eda-dashboard .kpi-card {
+    padding: 18px;
+  }
+  
+  .eda-dashboard .kpi-value {
+    font-size: 1.5rem;
   }
 
   .charts-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .insights-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .quality-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 
-  .table-section {
+  .eda-dashboard .table-section {
     padding: 16px;
   }
 
   .insight-card {
-    padding: 16px;
+    padding: 18px;
+  }
+  
+  .chart-container {
+    padding: 18px;
+  }
+  
+  .quality-section,
+  .eda-dashboard .insights-section {
+    padding: 18px;
   }
 }
 
+/* Mobile Portrait */
 @media (max-width: 480px) {
   .eda-dashboard {
     padding: 12px;
   }
 
-  .dashboard-header {
+  .eda-dashboard .dashboard-header {
     padding: 20px;
   }
 
-  .dashboard-header h1 {
+  .eda-dashboard .dashboard-header h1 {
     font-size: 1.25rem;
   }
+  
+  .eda-dashboard .dashboard-header p {
+    font-size: 0.9rem;
+  }
 
-  .kpi-section {
+  .eda-dashboard .kpi-section {
     grid-template-columns: 1fr;
   }
 
-  .kpi-value {
+  .eda-dashboard .kpi-value {
     font-size: 1.5rem;
+  }
+  
+  .eda-dashboard .kpi-card {
+    padding: 16px;
   }
 
   .chart-container {
-    padding: 16px;
+    padding: 14px;
+  }
+  
+  .chart-container h3 {
+    font-size: 1rem;
+    margin-bottom: 16px;
   }
 
-  .insights-section {
+  .eda-dashboard .insights-section {
     padding: 16px;
+  }
+  
+  .eda-dashboard .insights-section h2 {
+    font-size: 1.2rem;
   }
 
   .quality-section {
     padding: 16px;
+  }
+  
+  .quality-section h3 {
+    font-size: 1rem;
+  }
+  
+  .quality-item {
+    padding: 12px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .insight-card {
+    padding: 16px;
+  }
+  
+  .insight-card h4 {
+    font-size: 0.95rem;
+  }
+  
+  .insight-card p {
+    font-size: 0.85rem;
+  }
+  
+  .filters-section {
+    padding: 14px;
+  }
+  
+  .filter-group select {
+    padding: 10px 14px;
+    padding-right: 32px;
+    font-size: 16px; /* Prevent iOS zoom */
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .eda-dashboard {
+    padding: 8px;
+  }
+  
+  .eda-dashboard .dashboard-header {
+    padding: 16px;
+  }
+  
+  .eda-dashboard .dashboard-header h1 {
+    font-size: 1.15rem;
+  }
+  
+  .eda-dashboard .kpi-value {
+    font-size: 1.35rem;
+  }
+  
+  .kpi-label {
+    font-size: 0.7rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .eda-dashboard .kpi-card:hover,
+  .chart-container:hover,
+  .insight-card:hover,
+  .quality-item:hover {
+    transform: none;
+  }
+  
+  .eda-dashboard .kpi-card:active {
+    transform: scale(0.98);
+  }
+  
+  .insight-card:active {
+    transform: scale(0.98);
+  }
+  
+  .quality-item {
+    padding: 16px;
+  }
+  
+  .filter-group select {
+    min-height: 44px;
+  }
+}
+
+/* Landscape mode for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .eda-dashboard {
+    padding: 12px;
+  }
+  
+  .eda-dashboard .dashboard-header {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .eda-dashboard .kpi-section {
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 16px;
+  }
+  
+  .eda-dashboard .kpi-card {
+    padding: 14px;
+  }
+  
+  .eda-dashboard .kpi-value {
+    font-size: 1.25rem;
   }
 }
 
@@ -498,5 +696,38 @@
 
   .eda-dashboard::before {
     display: none;
+  }
+  
+  .eda-dashboard {
+    background: white;
+    padding: 0;
+  }
+  
+  .eda-dashboard .kpi-card,
+  .chart-container,
+  .insight-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .eda-dashboard .dashboard-header,
+  .filters-section,
+  .eda-dashboard .kpi-card,
+  .chart-container,
+  .eda-dashboard .insights-section,
+  .quality-section,
+  .eda-dashboard .table-section {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .eda-dashboard .kpi-card:hover,
+  .chart-container:hover,
+  .insight-card:hover {
+    transform: none;
   }
 }

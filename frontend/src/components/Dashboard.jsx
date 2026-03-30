@@ -247,6 +247,15 @@ export default function Dashboard({ dashboardData, onBackClick }) {
 
   return (
     <div className="dashboard-wrapper">
+      {/* SIDEBAR OVERLAY FOR MOBILE */}
+      {sidebarOpen && (
+        <div 
+          className="sidebar-overlay visible" 
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      
       {/* SIDEBAR */}
       <aside className={`sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">

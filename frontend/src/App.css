@@ -2,6 +2,7 @@
 .app-container {
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-dark);
   position: relative;
   display: flex;
@@ -44,19 +45,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
+  padding: 14px 24px;
   max-width: 1600px;
   margin: 0 auto;
+  gap: 16px;
 }
 
 .header-brand {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .brand-icon {
   color: var(--primary);
+  flex-shrink: 0;
 }
 
 .brand-text {
@@ -64,6 +68,9 @@
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* App Main */
@@ -134,8 +141,10 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   gap: 16px;
   color: var(--text-secondary);
+  padding: 24px;
 }
 
 .loading-spinner {
@@ -151,10 +160,27 @@
   to { transform: rotate(360deg); }
 }
 
-/* Responsive */
+/* ============ RESPONSIVE DESIGN ============ */
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .header-content {
+    padding: 14px 32px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .header-content {
+    padding: 12px 20px;
+  }
+}
+
+/* Mobile Landscape & Small Tablet */
 @media (max-width: 768px) {
   .header-content {
     padding: 12px 16px;
+    gap: 12px;
   }
 
   .brand-text {
@@ -178,5 +204,146 @@
   .back-btn {
     width: 100%;
     justify-content: center;
+    padding: 14px 20px;
+  }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+  .header-content {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .brand-text {
+    font-size: 0.95rem;
+  }
+  
+  .brand-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .quick-access {
+    padding: 12px;
+  }
+
+  .view-eda-btn {
+    padding: 14px 20px;
+    font-size: 0.9rem;
+  }
+
+  .back-section {
+    padding: 12px;
+  }
+
+  .back-btn {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+  
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .header-content {
+    padding: 10px;
+  }
+  
+  .brand-text {
+    font-size: 0.9rem;
+  }
+  
+  .header-brand {
+    gap: 8px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .view-eda-btn:hover,
+  .back-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .view-eda-btn:active,
+  .back-btn:active {
+    transform: scale(0.98);
+    background: var(--bg-elevated);
+  }
+  
+  .view-eda-btn,
+  .back-btn {
+    min-height: 48px;
+  }
+}
+
+/* Landscape mode for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .header-content {
+    padding: 8px 16px;
+  }
+  
+  .quick-access {
+    padding: 12px 16px;
+  }
+  
+  .view-eda-btn {
+    padding: 12px 20px;
+  }
+  
+  .back-section {
+    padding: 12px;
+  }
+  
+  .loading-container {
+    min-height: auto;
+    padding: 40px 24px;
+  }
+}
+
+/* Safe area padding for notched devices */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .app-header {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .header-content {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: none;
+    border-color: var(--primary);
+  }
+  
+  .view-eda-btn,
+  .back-btn {
+    transition: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .app-header {
+    display: none;
+  }
+  
+  .app-container::before {
+    display: none;
+  }
+  
+  .quick-access,
+  .back-section {
+    display: none;
   }
 }

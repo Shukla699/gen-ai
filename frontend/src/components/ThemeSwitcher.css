@@ -16,6 +16,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition-normal);
+  min-height: 42px;
 }
 
 .theme-toggle-btn:hover {
@@ -45,24 +46,25 @@
   position: fixed;
   inset: 0;
   z-index: 998;
+  background: transparent;
 }
 
 .theme-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  width: 280px;
+  width: 300px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   z-index: 999;
-  animation: slideDown 0.2s ease;
+  animation: dropdownSlideDown 0.2s ease;
 }
 
 .theme-dropdown-header {
-  padding: 14px 16px;
+  padding: 16px 18px;
   border-bottom: 1px solid var(--border);
   font-size: 0.75rem;
   font-weight: 600;
@@ -75,14 +77,15 @@
   padding: 8px;
   max-height: 400px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .theme-option {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   background: transparent;
   border: none;
   border-radius: var(--radius-md);
@@ -101,8 +104,8 @@
 }
 
 .theme-preview {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-sm);
   border: 2px solid;
   position: relative;
@@ -115,7 +118,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 12px;
+  height: 14px;
 }
 
 .theme-info {
@@ -124,9 +127,15 @@
 }
 
 .theme-option-name {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 500;
   display: block;
+}
+
+.theme-option-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
 }
 
 .theme-icon-wrapper {
@@ -144,8 +153,29 @@
   flex-shrink: 0;
 }
 
-/* Mobile Styles */
+/* ============ RESPONSIVE DESIGN ============ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .theme-dropdown {
+    width: 280px;
+  }
+}
+
+/* Mobile */
 @media (max-width: 640px) {
+  .theme-toggle-btn {
+    padding: 8px 12px;
+    min-height: 40px;
+    gap: 8px;
+  }
+  
+  .theme-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  
   .theme-dropdown {
     position: fixed;
     top: auto;
@@ -154,13 +184,14 @@
     right: 0;
     width: 100%;
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    max-height: 70vh;
-    animation: slideUp 0.3s ease;
+    max-height: 75vh;
+    animation: dropdownSlideUp 0.3s ease;
   }
 
   .theme-dropdown-header {
-    padding: 20px 16px 14px;
+    padding: 24px 18px 16px;
     text-align: center;
+    position: relative;
   }
 
   .theme-dropdown-header::before {
@@ -177,14 +208,98 @@
 
   .theme-options {
     padding: 8px 8px 24px;
+    max-height: calc(75vh - 60px);
   }
 
   .theme-option {
     padding: 14px 16px;
   }
+  
+  .theme-preview {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .theme-option-name {
+    font-size: 0.95rem;
+  }
 }
 
-@keyframes slideDown {
+/* Extra small screens */
+@media (max-width: 360px) {
+  .theme-toggle-btn {
+    padding: 8px 10px;
+  }
+  
+  .theme-option {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+  
+  .theme-preview {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .theme-toggle-btn:hover {
+    background: var(--bg-card);
+    border-color: var(--border);
+  }
+  
+  .theme-toggle-btn:active {
+    background: var(--bg-card-hover);
+  }
+  
+  .theme-option:hover {
+    background: transparent;
+  }
+  
+  .theme-option:active {
+    background: var(--bg-elevated);
+  }
+  
+  .theme-toggle-btn {
+    min-height: 44px;
+  }
+  
+  .theme-option {
+    min-height: 56px;
+  }
+}
+
+/* Landscape mode for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .theme-dropdown {
+    max-height: 90vh;
+  }
+  
+  .theme-options {
+    max-height: calc(90vh - 50px);
+  }
+  
+  .theme-dropdown-header {
+    padding: 16px 18px 12px;
+  }
+  
+  .theme-option {
+    padding: 10px 14px;
+  }
+}
+
+/* Safe area padding for notched devices */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  @media (max-width: 640px) {
+    .theme-options {
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* Animations */
+@keyframes dropdownSlideDown {
   from {
     opacity: 0;
     transform: translateY(-8px);
@@ -195,7 +310,7 @@
   }
 }
 
-@keyframes slideUp {
+@keyframes dropdownSlideUp {
   from {
     opacity: 0;
     transform: translateY(100%);
@@ -203,5 +318,16 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .theme-dropdown {
+    animation: none;
+  }
+  
+  .chevron {
+    transition: none;
   }
 }
