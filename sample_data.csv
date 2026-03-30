@@ -1,0 +1,11 @@
+Product,Q1_Sales,Q2_Sales,Q3_Sales,Q4_Sales,Region,Category
+Laptop,45000,52000,58000,65000,North,Electronics
+Desktop,32000,38000,42000,48000,South,Electronics
+Monitor,15000,18000,21000,24000,East,Electronics
+Keyboard,8000,9500,11000,12500,West,Accessories
+Mouse,6000,7200,8500,9800,North,Accessories
+Desk,25000,28000,31000,35000,South,Furniture
+Chair,18000,20000,23000,26000,East,Furniture
+Lamp,5000,6000,7000,8000,West,Furniture
+Headphones,12000,14000,16000,18000,North,Accessories
+Tablet,22000,25000,28000,32000,South,Electronics

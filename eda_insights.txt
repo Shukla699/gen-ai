@@ -1,0 +1,12 @@
+EXPLORATORY DATA ANALYSIS - KEY INSIGHTS
+============================================================
+
+1. DATA OVERVIEW
+------------------------------------------------------------
+   Total Products: 10
+   Total Sales: $929,500
+   Average Product Sales: $92,950
+   Time Period: Q1 - Q4
+
+2. GROWTH TRENDS
+------------------------------------------------------------
