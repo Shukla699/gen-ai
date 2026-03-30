@@ -33,6 +33,10 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
   
+  /* Gradient Colors (for background) */
+  --gradient-start: rgba(99, 102, 241, 0.15);
+  --gradient-end: rgba(168, 85, 247, 0.1);
+  
   /* Spacing & Radius */
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -63,6 +67,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -167,8 +172,18 @@ body {
 
 /* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-pink) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Smooth Theme Transitions */
+.app-container,
+.app-container *:not(svg):not(path) {
+  transition: 
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
