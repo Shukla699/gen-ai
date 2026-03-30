@@ -64,16 +64,26 @@ export default function FileUpload({ onDashboardGenerated }) {
   return (
     <div className="file-upload-container">
       <div className="upload-card">
-        <h1>📊 AI Dashboard Generator</h1>
+        <h1>AI Dashboard Generator</h1>
         <p className="subtitle">Upload your data and let AI create a beautiful dashboard</p>
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="file-label">
               <div className="upload-area">
-                <span className="upload-icon">📁</span>
+                <span className="upload-icon">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </span>
                 <p>
-                  {file ? `✓ ${file.name}` : 'Click to select a file or drag and drop'}
+                  {file ? (
+                    <span style={{ color: 'var(--accent)' }}>Selected: {file.name}</span>
+                  ) : (
+                    'Click to select a file or drag and drop'
+                  )}
                 </p>
                 <input
                   type="file"
@@ -99,12 +109,22 @@ export default function FileUpload({ onDashboardGenerated }) {
           {error && <div className="error-message">{error}</div>}
 
           <button type="submit" disabled={!file || loading} className="submit-btn">
-            {loading ? '🔄 Generating Dashboard...' : '✨ Generate Dashboard'}
+            {loading ? (
+              <>
+                <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" strokeOpacity="0.25"/>
+                  <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
+                </svg>
+                Generating Dashboard...
+              </>
+            ) : (
+              'Generate Dashboard'
+            )}
           </button>
         </form>
 
         <div className="supported-formats">
-          <p>📋 Supported formats: CSV, Excel (.xlsx, .xls), JSON</p>
+          <p>Supported formats: CSV, Excel (.xlsx, .xls), JSON</p>
         </div>
       </div>
     </div>

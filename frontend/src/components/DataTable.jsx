@@ -45,7 +45,7 @@ export default function DataTable({ data, columns }) {
       <div className="table-controls">
         <input
           type="text"
-          placeholder="🔍 Search data..."
+          placeholder="Search data..."
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
@@ -67,7 +67,15 @@ export default function DataTable({ data, columns }) {
                   {col}
                   {sortBy === col && (
                     <span className="sort-indicator">
-                      {sortOrder === 'asc' ? ' ↑' : ' ↓'}
+                      {sortOrder === 'asc' ? (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                      ) : (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                      )}
                     </span>
                   )}
                 </th>
@@ -92,14 +100,20 @@ export default function DataTable({ data, columns }) {
             disabled={currentPage === 0}
             onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
           >
-            ← Previous
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+            Previous
           </button>
           <span>Page {currentPage + 1} of {totalPages}</span>
           <button
             disabled={currentPage === totalPages - 1}
             onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
           >
-            Next →
+            Next
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
           </button>
         </div>
       )}

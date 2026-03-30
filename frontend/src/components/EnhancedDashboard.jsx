@@ -15,7 +15,7 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
   const [regions, setRegions] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'];
+  const COLORS = ['#6366f1', '#22c55e', '#f97316', '#ef4444', '#a855f7', '#ec4899', '#06b6d4', '#14b8a6'];
 
   // Default sample data (fallback)
   const defaultData = {
@@ -35,18 +35,15 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
     categories: ['Electronics', 'Furniture', 'Accessories'],
   };
 
-  // Initialize with data
   useEffect(() => {
     fetchDynamicData();
   }, [uploadedData]);
 
-  // Fetch dynamic data from API or use provided data
   const fetchDynamicData = async () => {
     try {
       setLoading(true);
       let sourceData;
 
-      // Use uploaded data if available
       if (uploadedData && uploadedData.dashboardConfig && uploadedData.data) {
         sourceData = {
           products: uploadedData.data,
@@ -54,11 +51,9 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
           categories: [...new Set(uploadedData.data.map(item => item.Category || item.category))],
         };
       } else {
-        // Use default data
         sourceData = defaultData;
       }
 
-      // Extract unique regions and categories dynamically
       const uniqueRegions = [...new Set(sourceData.products.map(p => p.region || p.Region))];
       const uniqueCategories = [...new Set(sourceData.products.map(p => p.category || p.Category))];
 
@@ -73,7 +68,6 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
     } catch (err) {
       console.error('Error fetching data:', err);
       setError('Error loading data');
-      // Use default data as fallback
       setAllData(defaultData.products);
       setRegions(defaultData.regions);
       setCategories(defaultData.categories);
@@ -81,7 +75,6 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
     }
   };
 
-  // Process data based on filters
   const processData = (sourceData, uniqueRegions, uniqueCategories) => {
     try {
       const filteredData = sourceData.filter(product => {
@@ -90,7 +83,6 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
         return regionMatch && categoryMatch;
       });
 
-      // Ensure numeric fields
       const numericData = filteredData.map(p => ({
         ...p,
         q1: parseFloat(p.q1 || p.Q1_Sales || 0),
@@ -100,7 +92,6 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
         total: parseFloat(p.total || ((p.q1 || p.Q1_Sales || 0) + (p.q2 || p.Q2_Sales || 0) + (p.q3 || p.Q3_Sales || 0) + (p.q4 || p.Q4_Sales || 0))),
       }));
 
-      // Calculate metrics
       const totalRevenue = numericData.reduce((sum, p) => sum + p.total, 0);
       const avgProductSales = Math.round(totalRevenue / Math.max(numericData.length, 1));
       const q1Total = numericData.reduce((sum, p) => sum + p.q1, 0);
@@ -141,12 +132,10 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
     }
   };
 
-  // Reprocess when filters change
   useEffect(() => {
     processData(allData, regions, categories);
   }, [selectedRegion, selectedCategory, allData]);
 
-  // Calculate dynamic region and category data
   const calculateRegionData = () => {
     if (!allData || allData.length === 0) return [];
     const regionSums = {};
@@ -185,7 +174,6 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
     }));
   };
 
-  // Chart data
   const trendData = data ? [
     { quarter: 'Q1', total: metrics.q1Total },
     { quarter: 'Q2', total: metrics.q2Total },
@@ -196,14 +184,25 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
   const regionData = calculateRegionData();
   const categoryData = calculateCategoryData();
 
-  if (loading) return <div className="dashboard" style={{padding: '40px', textAlign: 'center', color: 'white'}}>⏳ Loading analytics...</div>;
-  if (error) return <div className="dashboard error" style={{padding: '40px', textAlign: 'center'}}>⚠️ {error}</div>;
-  if (!data || data.length === 0) return <div className="dashboard" style={{padding: '40px', textAlign: 'center', color: 'white'}}>📊 No data available</div>;
+  if (loading) return (
+    <div className="dashboard" style={{padding: '40px', textAlign: 'center', color: 'var(--text-secondary)'}}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px'}}>
+        <svg className="animate-spin" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10" strokeOpacity="0.25"/>
+          <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
+        </svg>
+        Loading analytics...
+      </div>
+    </div>
+  );
+  
+  if (error) return <div className="dashboard error" style={{padding: '40px', textAlign: 'center'}}>{error}</div>;
+  if (!data || data.length === 0) return <div className="dashboard" style={{padding: '40px', textAlign: 'center', color: 'var(--text-secondary)'}}>No data available</div>;
 
   return (
     <div className="eda-dashboard">
       <header className="dashboard-header">
-        <h1>📊 Advanced Analytics Dashboard</h1>
+        <h1>Advanced Analytics Dashboard</h1>
         <p>Exploratory Data Analysis & Sales Performance Insights</p>
       </header>
 
@@ -242,17 +241,17 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
           <div className="kpi-meta">{metrics.productCount} products</div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-label">Q1→Q2 Growth</div>
+          <div className="kpi-label">Q1 to Q2 Growth</div>
           <div className="kpi-value growth">+{metrics.q1ToQ2Growth}%</div>
           <div className="kpi-meta">Quarter growth</div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-label">Q2→Q3 Growth</div>
+          <div className="kpi-label">Q2 to Q3 Growth</div>
           <div className="kpi-value growth">+{metrics.q2ToQ3Growth}%</div>
           <div className="kpi-meta">Quarter growth</div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-label">Q3→Q4 Growth</div>
+          <div className="kpi-label">Q3 to Q4 Growth</div>
           <div className="kpi-value growth">+{metrics.q3ToQ4Growth}%</div>
           <div className="kpi-meta">Quarter growth</div>
         </div>
@@ -262,36 +261,43 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
       <div className="charts-grid">
         {/* Trend Line Chart */}
         <div className="chart-container">
-          <h3>📈 Quarterly Sales Trend</h3>
+          <h3>Quarterly Sales Trend</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={trendData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="quarter" />
-              <YAxis />
-              <Tooltip formatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+              <XAxis dataKey="quarter" stroke="#64748b" />
+              <YAxis stroke="#64748b" />
+              <Tooltip 
+                formatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                contentStyle={{ background: '#1a1a24', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                labelStyle={{ color: '#f8fafc' }}
+              />
               <Legend />
-              <Line type="monotone" dataKey="total" stroke="#FF6B6B" strokeWidth={2} name="Total Sales" />
+              <Line type="monotone" dataKey="total" stroke="#6366f1" strokeWidth={3} name="Total Sales" dot={{ fill: '#6366f1', strokeWidth: 2 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Product Bar Chart */}
         <div className="chart-container">
-          <h3>📊 Top Products (Q1)</h3>
+          <h3>Top Products (Q1)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data && data.length > 0 ? data.slice(0, Math.min(5, data.length)).sort((a, b) => b.q1 - a.q1) : []}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
-              <YAxis />
-              <Tooltip formatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
-              <Bar dataKey="q1" fill="#4ECDC4" name="Q1 Sales" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+              <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} stroke="#64748b" />
+              <YAxis stroke="#64748b" />
+              <Tooltip 
+                formatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                contentStyle={{ background: '#1a1a24', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+              />
+              <Bar dataKey="q1" fill="#22c55e" name="Q1 Sales" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Regional Pie Chart */}
         <div className="chart-container">
-          <h3>🗺️ Regional Sales Distribution</h3>
+          <h3>Regional Sales Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={regionData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
@@ -299,14 +305,17 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip formatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+              <Tooltip 
+                formatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                contentStyle={{ background: '#1a1a24', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
         {/* Category Pie Chart */}
         <div className="chart-container">
-          <h3>📦 Category Performance</h3>
+          <h3>Category Performance</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={categoryData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
@@ -314,7 +323,10 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip formatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+              <Tooltip 
+                formatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                contentStyle={{ background: '#1a1a24', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -322,25 +334,25 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
 
       {/* Insights Section */}
       <div className="insights-section">
-        <h2>💡 Key Insights from EDA</h2>
+        <h2>Key Insights from EDA</h2>
         <div className="insights-grid">
           {insights.topPerformer && (
             <div className="insight-card">
-              <h4>🏆 Top Performer</h4>
+              <h4>Top Performer</h4>
               <p>{insights.topPerformer.name}</p>
               <p className="subtitle">${(insights.topPerformer.total / 1000).toFixed(0)}K total sales</p>
             </div>
           )}
           <div className="insight-card">
-            <h4>🌍 Best Region</h4>
+            <h4>Best Region</h4>
             <p>{insights.bestRegion}</p>
           </div>
           <div className="insight-card">
-            <h4>📂 Best Category</h4>
+            <h4>Best Category</h4>
             <p>{insights.bestCategory}</p>
           </div>
           <div className="insight-card">
-            <h4>📈 Growth Trend</h4>
+            <h4>Growth Trend</h4>
             <p>{insights.growthTrend}</p>
           </div>
         </div>
@@ -348,7 +360,7 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
 
       {/* Data Quality */}
       <div className="quality-section">
-        <h3>✅ Data Quality Metrics</h3>
+        <h3>Data Quality Metrics</h3>
         <div className="quality-grid">
           <div className="quality-item">
             <span>Completeness</span>
@@ -371,7 +383,7 @@ const EnhancedDashboard = ({ uploadedData = null }) => {
 
       {/* Data Table */}
       <div className="table-section">
-        <h3>📋 Detailed Products Data</h3>
+        <h3>Detailed Products Data</h3>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
